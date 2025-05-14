@@ -1,0 +1,216 @@
+/* Thoughtworks Color Palette */
+:root {
+  --mist-gray: #EDF1F3;
+  --onyx-black: #000000;
+  --flamingo-pink: #F2617A;
+  --wave-blue: #003D4F;
+  --turmeric-yellow: #CC850A;
+  --jade-green: #6B9E78;
+  --sapphire-blue: #47A1AD;
+  --amethyst-purple: #634F7D;
+}
+
+body,
+html {
+  background: var(--mist-gray);
+  color: var(--onyx-black);
+  min-height: 100vh;
+  font-family: 'Segoe UI', 'Arial', sans-serif;
+  margin: 0;
+  padding: 0;
+}
+
+.app-container {
+  min-height: 100vh;
+  min-width: 100vw;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+}
+
+button,
+input,
+select {
+  font-family: inherit;
+  font-size: 1rem;
+  box-sizing: border-box;
+}
+
+button {
+  background: var(--wave-blue);
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  padding: 0.6em 1.4em;
+  margin: 0.5em 0;
+  cursor: pointer;
+  font-weight: 600;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+  transition: background 0.2s, box-shadow 0.2s;
+  max-width: 100%;
+}
+
+button:focus {
+  outline: 3px solid var(--flamingo-pink);
+  outline-offset: 2px;
+}
+
+button[type="submit"] {
+  background: var(--wave-blue);
+  color: #fff;
+}
+
+button[type="button"] {
+  background: var(--onyx-black);
+  color: #fff;
+}
+
+button[disabled] {
+  background: var(--mist-gray);
+  color: var(--onyx-black);
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.modal-backdrop {
+  background: rgba(0, 61, 79, 0.25);
+}
+
+.modal-content {
+  background: #fff;
+  border-radius: 16px;
+  box-shadow: 0 8px 32px rgba(0, 61, 79, 0.18);
+  padding: 2.5em 2em 2em 2em;
+  max-width: 480px;
+  width: 95vw;
+  position: relative;
+  border: 2px solid var(--wave-blue);
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+}
+
+form {
+  width: 100%;
+  box-sizing: border-box;
+}
+
+h2#modal-title {
+  color: var(--wave-blue);
+  margin-top: 0;
+  margin-bottom: 0.5em;
+  font-size: 2rem;
+  font-weight: 700;
+}
+
+label {
+  font-weight: 600;
+  color: var(--amethyst-purple);
+  margin-bottom: 0.2em;
+  display: block;
+}
+
+input,
+select {
+  width: 100%;
+  max-width: 100%;
+  padding: 0.5em 0.7em;
+  margin-bottom: 1.1em;
+  border: 1.5px solid var(--sapphire-blue);
+  border-radius: 5px;
+  background: var(--mist-gray);
+  color: var(--onyx-black);
+  transition: border 0.2s;
+  box-sizing: border-box;
+  display: block;
+}
+
+input:focus,
+select:focus {
+  border: 2px solid var(--flamingo-pink);
+  outline: none;
+  background: #fff;
+}
+
+[aria-invalid="true"] {
+  border-color: var(--flamingo-pink) !important;
+  background: #fff0f3;
+}
+
+[aria-live] ul {
+  color: var(--flamingo-pink);
+  font-weight: 500;
+  margin-bottom: 1em;
+}
+
+#slider-label {
+  color: var(--wave-blue);
+}
+
+#slider-widget {
+  background: var(--mist-gray);
+  border: 2px solid var(--turmeric-yellow);
+  border-radius: 8px;
+  margin-bottom: 1em;
+  box-sizing: border-box;
+  max-width: 100%;
+}
+
+#slider-widget:focus {
+  border-color: var(--flamingo-pink);
+  outline: none;
+}
+
+#slider-widget span {
+  color: var(--wave-blue);
+  font-weight: 700;
+}
+
+/* Confetti SVG circles get a drop shadow for pop */
+svg circle {
+  filter: drop-shadow(0 2px 2px rgba(0, 0, 0, 0.08));
+}
+
+/* Success message */
+[role="status"] {
+  color: var(--jade-green);
+  font-size: 1.2rem;
+  font-weight: 600;
+  text-align: center;
+}
+
+/* Close button */
+.modal-content>button[aria-label="Close dialog"] {
+  background: var(--flamingo-pink);
+  color: #fff;
+  border-radius: 50%;
+  width: 2.2em;
+  height: 2.2em;
+  font-size: 1.3em;
+  position: absolute;
+  top: 1em;
+  right: 1em;
+  padding: 0;
+  min-width: unset;
+  min-height: unset;
+  box-shadow: none;
+}
+
+.modal-content>button[aria-label="Close dialog"]:focus {
+  outline: 3px solid var(--turmeric-yellow);
+}
+
+/* Responsive modal for small screens */
+@media (max-width: 600px) {
+  .modal-content {
+    padding: 1.2em 0.5em 1em 0.5em;
+    max-width: 98vw;
+  }
+
+  form {
+    padding: 0;
+  }
+}
