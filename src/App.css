@@ -76,6 +76,12 @@ button[disabled] {
 
 .modal-backdrop {
   background: rgba(0, 61, 79, 0.25);
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 10000;
 }
 
 .modal-content {
@@ -91,6 +97,8 @@ button[disabled] {
   display: flex;
   flex-direction: column;
   align-items: stretch;
+  z-index: 10001;
+  margin: 10vh auto;
 }
 
 form {
@@ -117,7 +125,7 @@ input,
 select {
   width: 100%;
   max-width: 100%;
-  padding: 0.5em 0.7em;
+  height: 2em;
   margin-bottom: 1.1em;
   border: 1.5px solid var(--sapphire-blue);
   border-radius: 5px;
@@ -131,7 +139,6 @@ select {
 input:focus,
 select:focus {
   border: 2px solid var(--flamingo-pink);
-  outline: none;
   background: #fff;
 }
 
@@ -161,7 +168,6 @@ select:focus {
 
 #slider-widget:focus {
   border-color: var(--flamingo-pink);
-  outline: none;
 }
 
 #slider-widget span {
@@ -212,5 +218,52 @@ svg circle {
 
   form {
     padding: 0;
+  }
+}
+
+.confetti-container {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 160px;
+  pointer-events: none;
+  overflow: visible;
+  z-index: 10;
+}
+
+.confetti-piece {
+  position: absolute;
+  top: -24px;
+  border-radius: 2px;
+  opacity: 0.85;
+  animation-name: confetti-fall, confetti-spin;
+  animation-timing-function: cubic-bezier(0.4, 0.7, 0.6, 1), linear;
+  animation-iteration-count: 1, 1;
+}
+
+@keyframes confetti-fall {
+  0% {
+    top: -24px;
+    opacity: 0.9;
+  }
+
+  80% {
+    opacity: 0.85;
+  }
+
+  100% {
+    top: 140px;
+    opacity: 0.1;
+  }
+}
+
+@keyframes confetti-spin {
+  0% {
+    transform: rotate(0deg);
+  }
+
+  100% {
+    transform: rotate(360deg);
   }
 }
