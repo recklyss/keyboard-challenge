@@ -1,54 +1,55 @@
-# React + TypeScript + Vite
+# Keyboard-Only Challenge
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A single-page React app designed to test and demonstrate accessible, keyboard-only navigation and form completion. Built with React, TypeScript, and Vite.
 
-Currently, two official plugins are available:
+## Project Overview
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+This project is an accessibility challenge where users must complete a multi-field form using only the keyboard. The app demonstrates best practices for keyboard navigation, focus management, accessible form validation, and color contrast, using the Thoughtworks color palette.
 
-## Expanding the ESLint configuration
+## Accessibility Goals
+- **All interactions are possible with keyboard only** (Tab, Shift+Tab, Enter, Space, Arrow keys)
+- **Accessible modal dialog** with focus trap and ARIA roles
+- **Native HTML form elements** for best accessibility
+- **Visible focus indicators** for all interactive elements
+- **Color contrast** meets WCAG 2 AA standards
+- **ARIA live regions** for error and status messages
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+## Main Features
+- **Single, multi-field form** inside a modal dialog
+- **Fields:** Name, Email, Age, Country, State, City (all with validation)
+- **Native `<select>` dropdowns** for country, state, city
+- **Custom slider widget** for satisfaction (0-100), keyboard accessible
+- **Confetti animation** on successful submission
+- **Responsive, modern UI** using the Thoughtworks color palette
 
-```js
-export default tseslint.config({
-  extends: [
-    // Remove ...tseslint.configs.recommended and replace with this
-    ...tseslint.configs.recommendedTypeChecked,
-    // Alternatively, use this for stricter rules
-    ...tseslint.configs.strictTypeChecked,
-    // Optionally, add this for stylistic rules
-    ...tseslint.configs.stylisticTypeChecked,
-  ],
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
-```
+## Keyboard Navigation
+- **Tab / Shift+Tab:** Move between fields and buttons
+- **Enter / Space:** Activate buttons, open modal, submit form
+- **Arrow keys:** Adjust slider value
+- **Esc:** Close modal (returns focus to start button)
+- **Form validation:** Errors are announced and focus moves to the first error
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+## Thoughtworks Color Palette Used
+- **Mist gray:** #EDF1F3
+- **Onyx black:** #000000
+- **Flamingo pink:** #F2617A
+- **Wave blue:** #003D4F
+- **Turmeric yellow:** #CC850A
+- **Jade green:** #6B9E78
+- **Sapphire blue:** #47A1AD
+- **Amethyst purple:** #634F7D
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+## Running the Project
 
-export default tseslint.config({
-  plugins: {
-    // Add the react-x and react-dom plugins
-    'react-x': reactX,
-    'react-dom': reactDom,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended typescript rules
-    ...reactX.configs['recommended-typescript'].rules,
-    ...reactDom.configs.recommended.rules,
-  },
-})
-```
+1. Install dependencies:
+   ```sh
+   npm install
+   ```
+2. Start the dev server:
+   ```sh
+   npm run dev
+   ```
+3. Open [http://localhost:5173](http://localhost:5173) in your browser.
+
+## License
+MIT
