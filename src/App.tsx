@@ -59,22 +59,37 @@ function App() {
       >
         Start Keyboard Challenge
       </button>
-      <Guide />
+      <nav aria-label="Keyboard Challenge Guide">
+        <Guide />
+      </nav>
       {modalOpen && (
         <Modal onClose={handleCloseModal} labelledBy="modal-title" id="keyboard-challenge-modal">
-          <h2 id="modal-title">Keyboard-Only Challenge</h2>
-          <button
-            onClick={handleCloseModal}
-            aria-label="Close dialog"
-            className="modal-close-btn"
-          >
-            ×
-          </button>
-          <KeyboardChallengeForm
-            onSubmit={handleFormSubmit}
-            submitted={submitted}
-          />
-          {submitted && <Confetti show={showConfetti} />}
+          <div className="modal-header">
+            <h2 id="modal-title" style={{ margin: 0 }}>Keyboard-Only Challenge</h2>
+            <button
+              onClick={handleCloseModal}
+              aria-label="Close dialog"
+              className="modal-close-btn"
+            >
+              ×
+            </button>
+          </div>
+          <div style={{ flex: 1, overflow: 'auto', minHeight: 0 }}>
+            <KeyboardChallengeForm
+              onSubmit={handleFormSubmit}
+              submitted={submitted}
+            />
+            {submitted && <Confetti show={showConfetti} />}
+          </div>
+          <div className="form-footer">
+            <button
+              type="submit"
+              form="keyboard-challenge-form"
+              className="form-submit"
+            >
+              Submit
+            </button>
+          </div>
         </Modal>
       )}
     </div>
