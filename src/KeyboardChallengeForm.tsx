@@ -284,18 +284,6 @@ export const KeyboardChallengeForm: React.FC<KeyboardChallengeFormProps> = ({
             />
             Phone
           </label>
-          <label className="option-label">
-            <input
-              type="radio"
-              name="contactMethod"
-              value="None"
-              checked={state.contactMethod === 'None'}
-              onChange={() => handleChange('contactMethod', 'None')}
-              aria-invalid={!!errors.contactMethod}
-              className="form-radio"
-            />
-            None
-          </label>
         </div>
         {errors.contactMethod && (
           <div id="contactMethod-error" className="form-error-text">
