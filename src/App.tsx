@@ -65,7 +65,7 @@ function App() {
       {modalOpen && (
         <Modal onClose={handleCloseModal} labelledBy="modal-title" id="keyboard-challenge-modal">
           <div className="modal-header">
-            <h2 id="modal-title" style={{ margin: 0 }}>Keyboard-Only Challenge</h2>
+            <h2 id="modal-title" className="modal-title">Keyboard-Only Challenge</h2>
             <button
               onClick={handleCloseModal}
               aria-label="Close dialog"
@@ -74,7 +74,7 @@ function App() {
               ×
             </button>
           </div>
-          <div style={{ flex: 1, overflow: 'auto', minHeight: 0 }}>
+          <div className="modal-body">
             <KeyboardChallengeForm
               onSubmit={handleFormSubmit}
               submitted={submitted}

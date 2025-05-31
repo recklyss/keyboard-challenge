@@ -338,7 +338,7 @@ export const KeyboardChallengeForm: React.FC<KeyboardChallengeFormProps> = ({
         )}
       </fieldset>
       <div className="agree-row">
-        <label htmlFor="agree" className="option-label" style={{ fontWeight: 500 }}>
+        <label htmlFor="agree" className="option-label agree-label">
           <input
             id="agree"
             name="agree"

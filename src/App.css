@@ -1,3 +1,46 @@
+/* ========================================
+   GLOBAL RESETS & BASE STYLES
+   ======================================== */
+
+/* Global CSS Reset and Base Styles */
+:root {
+  /* Font rendering optimizations */
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Global box-sizing for consistency */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+/* Remove default margins and paddings */
+* {
+  margin: 0;
+  padding: 0;
+}
+
+/* Hide content from screen readers only */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* ========================================
+   COLOR PALETTE & VARIABLES
+   ======================================== */
+
 /* Thoughtworks Color Palette */
 :root {
   --mist-gray: #EDF1F3;
@@ -9,6 +52,10 @@
   --sapphire-blue: #47A1AD;
   --amethyst-purple: #634F7D;
 }
+
+/* ========================================
+   BASE LAYOUT & TYPOGRAPHY
+   ======================================== */
 
 body,
 html {
@@ -29,6 +76,10 @@ html {
   justify-content: center;
   box-sizing: border-box;
 }
+
+/* ========================================
+   BUTTON COMPONENTS
+   ======================================== */
 
 button,
 input,
@@ -53,7 +104,7 @@ button {
 }
 
 button:focus {
-  outline: 3px solid var(--flamingo-pink);
+  outline: 2px solid var(--flamingo-pink);
   outline-offset: 2px;
 }
 
@@ -73,6 +124,10 @@ button[disabled] {
   opacity: 0.6;
   cursor: not-allowed;
 }
+
+/* ========================================
+   MODAL COMPONENTS
+   ======================================== */
 
 .modal-backdrop {
   background: rgba(0, 61, 79, 0.25);
@@ -115,6 +170,19 @@ button[disabled] {
   border-bottom: 1.5px solid var(--mist-gray);
 }
 
+.modal-title {
+  color: var(--wave-blue);
+  margin: 0;
+  font-size: 2rem;
+  font-weight: 700;
+}
+
+.modal-body {
+  flex: 1;
+  overflow: auto;
+  min-height: 0;
+}
+
 .modal-header button[aria-label="Close dialog"],
 .modal-content>button[aria-label="Close dialog"] {
   background: var(--flamingo-pink) !important;
@@ -145,7 +213,8 @@ button[disabled] {
   background: #fff;
   color: var(--flamingo-pink);
   border: 2px solid var(--flamingo-pink);
-  outline: 2px solid var(--turmeric-yellow);
+  outline: 2px solid var(--flamingo-pink);
+  outline-offset: 2px;
 }
 
 .form-footer {
@@ -159,17 +228,13 @@ button[disabled] {
   justify-content: flex-end;
 }
 
+/* ========================================
+   FORM COMPONENTS
+   ======================================== */
+
 form {
   width: 100%;
   box-sizing: border-box;
-}
-
-h2#modal-title {
-  color: var(--wave-blue);
-  margin-top: 0;
-  margin-bottom: 0.5em;
-  font-size: 2rem;
-  font-weight: 700;
 }
 
 label {
@@ -202,6 +267,8 @@ input:focus,
 select:focus {
   border: 2px solid var(--flamingo-pink);
   background: #fff;
+  outline: 2px solid var(--flamingo-pink);
+  outline-offset: 2px;
 }
 
 [aria-invalid="true"] {
@@ -209,123 +276,7 @@ select:focus {
   background: #fff0f3;
 }
 
-[aria-live] ul {
-  color: var(--flamingo-pink);
-  font-weight: 500;
-  margin-bottom: 1em;
-}
-
-#slider-label {
-  color: var(--wave-blue);
-}
-
-#slider-widget {
-  background: var(--mist-gray);
-  border: 2px solid var(--turmeric-yellow);
-  border-radius: 8px;
-  margin-bottom: 1em;
-  box-sizing: border-box;
-  max-width: 100%;
-}
-
-#slider-widget:focus {
-  border-color: var(--flamingo-pink);
-}
-
-#slider-widget span {
-  color: var(--wave-blue);
-  font-weight: 700;
-}
-
-/* Confetti SVG circles get a drop shadow for pop */
-svg circle {
-  filter: drop-shadow(0 2px 2px rgba(0, 0, 0, 0.08));
-}
-
-/* Success message */
-[role="status"] {
-  color: var(--jade-green);
-  font-size: 1.2rem;
-  font-weight: 600;
-  text-align: center;
-}
-
-/* Close button */
-.modal-content>button[aria-label="Close dialog"]:focus {
-  outline: 3px solid var(--turmeric-yellow);
-}
-
-/* Responsive modal for small screens */
-@media (max-width: 600px) {
-  .modal-content {
-    padding: 1.2em 0.5em 1em 0.5em;
-    max-width: 98vw;
-    max-height: 98vh;
-  }
-
-  .modal-header,
-  .form-footer {
-    padding-left: 0.2em;
-    padding-right: 0.2em;
-  }
-
-  form {
-    padding: 0;
-  }
-}
-
-.confetti-container {
-  position: absolute;
-  left: 0;
-  top: 0;
-  width: 100%;
-  height: 160px;
-  pointer-events: none;
-  overflow: visible;
-  z-index: 10;
-}
-
-.confetti-piece {
-  position: absolute;
-  top: -24px;
-  border-radius: 2px;
-  opacity: 0.85;
-  animation-name: confetti-fall, confetti-spin;
-  animation-timing-function: cubic-bezier(0.4, 0.7, 0.6, 1), linear;
-  animation-iteration-count: 1, 1;
-}
-
-.challenge-guide {
-  margin-top: 3em;
-}
-
-@keyframes confetti-fall {
-  0% {
-    top: -24px;
-    opacity: 0.9;
-  }
-
-  80% {
-    opacity: 0.85;
-  }
-
-  100% {
-    top: 140px;
-    opacity: 0.1;
-  }
-}
-
-@keyframes confetti-spin {
-  0% {
-    transform: rotate(0deg);
-  }
-
-  100% {
-    transform: rotate(360deg);
-  }
-}
-
-/* Unified form styles for KeyboardChallengeForm */
+/* Challenge Form Specific Styles */
 .challenge-form {
   display: flex;
   flex-direction: column;
@@ -352,12 +303,17 @@ svg circle {
   color: var(--coal-black, #222);
   transition: border 0.2s;
   margin-bottom: 0.1em;
+  min-height: 2.5em;
+  line-height: 1.3;
+  box-sizing: border-box;
+  appearance: none;
 }
 
 .form-input:focus,
 .form-select:focus {
-  outline: 2px solid var(--wave-blue, #0072ce);
-  border-color: var(--wave-blue, #0072ce);
+  outline: 2px solid var(--flamingo-pink);
+  outline-offset: 2px;
+  border-color: var(--flamingo-pink);
 }
 
 .form-fieldset {
@@ -392,12 +348,22 @@ svg circle {
   cursor: pointer;
 }
 
+.agree-label {
+  font-weight: 500 !important;
+}
+
 .form-radio,
 .form-checkbox {
   accent-color: var(--wave-blue, #0072ce);
   width: 1.1em;
   height: 1.1em;
   margin: 0;
+}
+
+.form-radio:focus,
+.form-checkbox:focus {
+  outline: 2px solid var(--flamingo-pink);
+  outline-offset: 2px;
 }
 
 .slider-row {
@@ -416,6 +382,11 @@ svg circle {
   box-shadow: none;
   border: none;
   transition: background 0.2s;
+}
+
+.form-slider:focus {
+  outline: 2px solid var(--flamingo-pink);
+  outline-offset: 2px;
 }
 
 .slider-value {
@@ -449,7 +420,8 @@ svg circle {
 .form-submit:focus,
 .form-submit:hover {
   background: var(--emerald-green, #00b39f);
-  outline: 2px solid var(--emerald-green, #00b39f);
+  outline: 2px solid var(--flamingo-pink);
+  outline-offset: 2px;
 }
 
 .form-error-text {
@@ -474,7 +446,155 @@ svg circle {
   font-size: 1em;
 }
 
+/* ========================================
+   GUIDE COMPONENT
+   ======================================== */
+
+.challenge-guide {
+  margin-top: 3em;
+}
+
+.guide-list {
+  text-align: left;
+  margin: 0.7em auto 0;
+  padding-left: 22px;
+  color: var(--onyx-black);
+  font-size: 0.98em;
+}
+
+/* ========================================
+   CONFETTI COMPONENT
+   ======================================== */
+
+.confetti-container {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 160px;
+  pointer-events: none;
+  overflow: visible;
+  z-index: 10;
+}
+
+.confetti-piece {
+  position: absolute;
+  top: -24px;
+  border-radius: 2px;
+  opacity: 0.85;
+  animation-name: confetti-fall, confetti-spin;
+  animation-timing-function: cubic-bezier(0.4, 0.7, 0.6, 1), linear;
+  animation-iteration-count: 1, 1;
+}
+
+@keyframes confetti-fall {
+  0% {
+    top: -24px;
+    opacity: 0.9;
+  }
+
+  80% {
+    opacity: 0.85;
+  }
+
+  100% {
+    top: 140px;
+    opacity: 0.1;
+  }
+}
+
+@keyframes confetti-spin {
+  0% {
+    transform: rotate(0deg);
+  }
+
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+/* ========================================
+   LEGACY STYLES (To be removed)
+   ======================================== */
+
+[aria-live] ul {
+  color: var(--flamingo-pink);
+  font-weight: 500;
+  margin-bottom: 1em;
+}
+
+#slider-label {
+  color: var(--wave-blue);
+}
+
+#slider-widget {
+  background: var(--mist-gray);
+  border: 2px solid var(--turmeric-yellow);
+  border-radius: 8px;
+  margin-bottom: 1em;
+  box-sizing: border-box;
+  max-width: 100%;
+}
+
+#slider-widget:focus {
+  border-color: var(--flamingo-pink);
+  outline: 2px solid var(--flamingo-pink);
+  outline-offset: 2px;
+}
+
+#slider-widget span {
+  color: var(--wave-blue);
+  font-weight: 700;
+}
+
+/* Confetti SVG circles get a drop shadow for pop */
+svg circle {
+  filter: drop-shadow(0 2px 2px rgba(0, 0, 0, 0.08));
+}
+
+/* Success message */
+[role="status"] {
+  color: var(--jade-green);
+  font-size: 1.2rem;
+  font-weight: 600;
+  text-align: center;
+}
+
+/* Close button */
+.modal-content>button[aria-label="Close dialog"]:focus {
+  outline: 2px solid var(--flamingo-pink);
+  outline-offset: 2px;
+}
+
+h2#modal-title {
+  color: var(--wave-blue);
+  margin-top: 0;
+  margin-bottom: 0.5em;
+  font-size: 2rem;
+  font-weight: 700;
+}
+
+/* ========================================
+   RESPONSIVE DESIGN
+   ======================================== */
+
 @media (max-width: 600px) {
+  .modal-content {
+    padding: 1.2em 0.5em 1em 0.5em;
+    max-width: 98vw;
+    max-height: 98vh;
+  }
+
+  .modal-header,
+  .form-footer {
+    padding-left: 0.2em;
+    padding-right: 0.2em;
+  }
+
+  form {
+    padding: 0;
+  }
+
   .challenge-form {
     max-width: 98vw;
     padding: 0 2vw;
@@ -488,20 +608,4 @@ svg circle {
   .slider-row {
     gap: 0.5em;
   }
-}
-
-.form-select {
-  width: 100%;
-  min-height: 2.5em;
-  padding: 0.5em 0.75em;
-  border: 1.5px solid var(--mist-gray, #dbe2e8);
-  border-radius: 8px;
-  font-size: 1em;
-  background: var(--cloud-white, #fff);
-  color: var(--coal-black, #222);
-  transition: border 0.2s;
-  margin-bottom: 0.1em;
-  line-height: 1.3;
-  box-sizing: border-box;
-  appearance: none;
 }
