@@ -143,11 +143,10 @@ button[disabled] {
   background: #fff;
   border-radius: 16px;
   box-shadow: 0 8px 32px rgba(0, 61, 79, 0.18);
-  padding: 2.5em 2em 2em 2em;
+  padding: 0;
   max-width: 720px;
   width: 95vw;
   max-height: 90vh;
-  overflow-y: auto;
   position: relative;
   border: 2px solid var(--wave-blue);
   box-sizing: border-box;
@@ -159,15 +158,15 @@ button[disabled] {
 }
 
 .modal-header {
-  position: sticky;
-  top: 0;
   background: #fff;
   z-index: 2;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding-bottom: 0.5em;
+  padding: 2em 2em 0.5em 2em;
   border-bottom: 1.5px solid var(--mist-gray);
+  flex-shrink: 0;
+  border-radius: 16px 16px 0 0;
 }
 
 .modal-title {
@@ -179,8 +178,10 @@ button[disabled] {
 
 .modal-body {
   flex: 1;
-  overflow: auto;
+  overflow-y: auto;
   min-height: 0;
+  padding: 1em 2em;
+  background: #fff;
 }
 
 .modal-header button[aria-label="Close dialog"],
@@ -218,14 +219,14 @@ button[disabled] {
 }
 
 .form-footer {
-  position: sticky;
-  bottom: 0;
   background: #fff;
   z-index: 2;
-  padding-top: 0.7em;
+  padding: 0.7em 2em 2em 2em;
   border-top: 1.5px solid var(--mist-gray);
   display: flex;
   justify-content: flex-end;
+  flex-shrink: 0;
+  border-radius: 0 0 16px 16px;
 }
 
 /* ========================================
@@ -371,17 +372,15 @@ select:focus {
   align-items: center;
   gap: 1em;
   margin-bottom: 0.5em;
+  padding: 0 12px;
 }
 
 .form-slider {
   flex: 1;
-  accent-color: var(--wave-blue, #0072ce);
-  border-radius: 8px;
-  height: 6px;
-  background: linear-gradient(to right, var(--wave-blue, #0072ce) 0%, var(--wave-blue, #0072ce) var(--slider-value, 50%), var(--mist-gray, #dbe2e8) var(--slider-value, 50%), var(--mist-gray, #dbe2e8) 100%);
-  box-shadow: none;
-  border: none;
-  transition: background 0.2s;
+  cursor: pointer;
+  margin: 0 -12px;
+  padding: 0;
+  box-sizing: border-box;
 }
 
 .form-slider:focus {
@@ -426,24 +425,17 @@ select:focus {
 
 .form-error-text {
   color: #b00020;
-  font-size: 0.98em;
-  margin-top: 0.3em;
-  margin-bottom: 0.1em;
+  font-size: 0.9em;
+  margin-top: -0.8em;
+  margin-bottom: 1em;
+  padding: 0.3em 0;
+  font-weight: 500;
+  display: block;
 }
 
 .required-asterisk {
   color: #b00020;
   margin-left: 0.1em;
-}
-
-.form-errors ul {
-  margin: 0 0 0.5em 1.2em;
-  padding: 0;
-  color: #b00020;
-  background: #fff4f4;
-  border-radius: 6px;
-  padding: 0.5em 1em;
-  font-size: 1em;
 }
 
 /* ========================================
@@ -517,36 +509,6 @@ select:focus {
    LEGACY STYLES (To be removed)
    ======================================== */
 
-[aria-live] ul {
-  color: var(--flamingo-pink);
-  font-weight: 500;
-  margin-bottom: 1em;
-}
-
-#slider-label {
-  color: var(--wave-blue);
-}
-
-#slider-widget {
-  background: var(--mist-gray);
-  border: 2px solid var(--turmeric-yellow);
-  border-radius: 8px;
-  margin-bottom: 1em;
-  box-sizing: border-box;
-  max-width: 100%;
-}
-
-#slider-widget:focus {
-  border-color: var(--flamingo-pink);
-  outline: 2px solid var(--flamingo-pink);
-  outline-offset: 2px;
-}
-
-#slider-widget span {
-  color: var(--wave-blue);
-  font-weight: 700;
-}
-
 /* Confetti SVG circles get a drop shadow for pop */
 svg circle {
   filter: drop-shadow(0 2px 2px rgba(0, 0, 0, 0.08));
@@ -580,24 +542,25 @@ h2#modal-title {
 
 @media (max-width: 600px) {
   .modal-content {
-    padding: 1.2em 0.5em 1em 0.5em;
     max-width: 98vw;
     max-height: 98vh;
   }
 
-  .modal-header,
-  .form-footer {
-    padding-left: 0.2em;
-    padding-right: 0.2em;
+  .modal-header {
+    padding: 1.2em 1em 0.5em 1em;
   }
 
-  form {
-    padding: 0;
+  .modal-body {
+    padding: 1em;
+  }
+
+  .form-footer {
+    padding: 0.7em 1em 1.2em 1em;
   }
 
   .challenge-form {
     max-width: 98vw;
-    padding: 0 2vw;
+    padding: 0;
   }
 
   .option-row {

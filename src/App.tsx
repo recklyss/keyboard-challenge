@@ -1,5 +1,5 @@
 // App.tsx - Keyboard-Only Challenge Main App (React + TypeScript)
-import * as React from 'react'
+import { useState, useEffect, useRef } from 'react'
 import './App.css'
 // Placeholder imports for new components
 import { Modal } from './Modal.tsx'
@@ -8,20 +8,20 @@ import { Confetti } from './Confetti.tsx'
 import { Guide } from './Guide.tsx'
 
 function App() {
-  const [modalOpen, setModalOpen] = React.useState(false)
-  const [showConfetti, setShowConfetti] = React.useState(false)
-  const [submitted, setSubmitted] = React.useState(false)
-  const startButtonRef = React.useRef<HTMLButtonElement>(null)
+  const [modalOpen, setModalOpen] = useState(false)
+  const [showConfetti, setShowConfetti] = useState(false)
+  const [submitted, setSubmitted] = useState(false)
+  const startButtonRef = useRef<HTMLButtonElement>(null)
 
   // Return focus to start button after modal closes
-  React.useEffect(() => {
+  useEffect(() => {
     if (!modalOpen && startButtonRef.current) {
       startButtonRef.current.focus()
     }
   }, [modalOpen])
 
   // Automatically close the modal when confetti finishes (after 2s)
-  React.useEffect(() => {
+  useEffect(() => {
     if (showConfetti) {
       const timeout = setTimeout(() => {
         setModalOpen(false)

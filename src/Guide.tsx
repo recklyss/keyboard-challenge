@@ -1,6 +1,6 @@
 import React from 'react';
 
-export const Guide: React.FC = () => (
+export const Guide = () => (
   <div className="challenge-guide">
     <strong>How to complete the challenge:</strong><br />
     <ul className="guide-list">

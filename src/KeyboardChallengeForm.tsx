@@ -1,4 +1,21 @@
-import React, { useState, useRef } from 'react';
+import { useState, useEffect } from 'react';
+
+// Validation constants
+const EMAIL_REGEX = /^\S+@\S+\.\S+$/;
+const AGE_MIN = 18;
+const AGE_MAX = 99;
+
+// Form data
+const data = {
+  USA: {
+    California: ['San Francisco', 'Los Angeles'],
+    Texas: ['Austin', 'Houston'],
+  },
+  Canada: {
+    Ontario: ['Toronto', 'Ottawa'],
+    Quebec: ['Montreal', 'Quebec City'],
+  },
+} as const;
 
 export interface FormState {
   name: string;
@@ -44,29 +61,17 @@ const initialState: FormState = {
   interests: [],
 };
 
-const data = {
-  USA: {
-    California: ['San Francisco', 'Los Angeles'],
-    Texas: ['Austin', 'Houston'],
-  },
-  Canada: {
-    Ontario: ['Toronto', 'Ottawa'],
-    Quebec: ['Montreal', 'Quebec City'],
-  },
-};
-
 export const KeyboardChallengeForm: React.FC<KeyboardChallengeFormProps> = ({
   onSubmit,
   submitted,
 }) => {
   const [state, setState] = useState<FormState>(initialState);
   const [errors, setErrors] = useState<FormErrors>({});
-  const errorRegionRef = useRef<HTMLDivElement>(null);
 
   const countryList = Object.keys(data);
   const stateList = state.country ? Object.keys(data[state.country as keyof typeof data]) : [];
   const cityList = state.country && state.state
-    ? (data[state.country as keyof typeof data] as Record<string, string[]>)[state.state as string] || []
+    ? (data[state.country as keyof typeof data] as Record<string, readonly string[]>)[state.state as string] || []
     : [];
 
   function validate(s: FormState): FormErrors {
@@ -74,7 +79,7 @@ export const KeyboardChallengeForm: React.FC<KeyboardChallengeFormProps> = ({
     if (!s.name.trim()) newErrors.name = 'Name is required.';
     if (!s.email.trim()) {
       newErrors.email = 'Email is required.';
-    } else if (!/^\S+@\S+\.\S+$/.test(s.email)) {
+    } else if (!EMAIL_REGEX.test(s.email)) {
       newErrors.email = 'Email must be valid.';
     }
     if (!s.age.trim()) {
@@ -83,8 +88,8 @@ export const KeyboardChallengeForm: React.FC<KeyboardChallengeFormProps> = ({
       const ageNum = Number(s.age);
       if (isNaN(ageNum) || !Number.isInteger(ageNum)) {
         newErrors.age = 'Age must be a valid number.';
-      } else if (ageNum < 18 || ageNum > 99) {
-        newErrors.age = 'Age must be between 18 and 99.';
+      } else if (ageNum < AGE_MIN || ageNum > AGE_MAX) {
+        newErrors.age = `Age must be between ${AGE_MIN} and ${AGE_MAX}.`;
       }
     }
     if (!s.country) newErrors.country = 'Country is required.';
@@ -125,13 +130,32 @@ export const KeyboardChallengeForm: React.FC<KeyboardChallengeFormProps> = ({
     if (Object.keys(newErrors).length === 0) {
       onSubmit(state);
     } else {
-      // Move focus to first error field
-      if (errorRegionRef.current) errorRegionRef.current.focus();
+      // Focus on the first field with an error
+      const firstErrorField = Object.keys(newErrors)[0];
+      const fieldMap: Record<string, string> = {
+        name: 'name',
+        email: 'email',
+        age: 'age',
+        country: 'country-select',
+        state: 'state-select',
+        city: 'city-select',
+        contactMethod: 'contactMethod-Email',
+        interests: 'interests-Tech',
+        agree: 'agree',
+      };
+
+      const fieldId = fieldMap[firstErrorField];
+      if (fieldId) {
+        const field = document.getElementById(fieldId);
+        if (field) {
+          field.focus();
+        }
+      }
     }
   }
 
   // Only reset state when the form is first mounted or when modal is opened
-  React.useEffect(() => {
+  useEffect(() => {
     if (!submitted) {
       setState(initialState);
       setErrors({});
@@ -140,20 +164,6 @@ export const KeyboardChallengeForm: React.FC<KeyboardChallengeFormProps> = ({
 
   return !submitted ? (
     <form onSubmit={handleSubmit} className="challenge-form" aria-labelledby="modal-title" id="keyboard-challenge-form">
-      <div
-        ref={errorRegionRef}
-        aria-live="assertive"
-        aria-atomic="true"
-        className="form-errors"
-      >
-        {Object.values(errors).length > 0 && (
-          <ul>
-            {Object.values(errors).map((msg, idx) => (
-              <li key={idx}>{msg}</li>
-            ))}
-          </ul>
-        )}
-      </div>
       <label htmlFor="name">Name:</label>
       <input
         id="name"
@@ -167,6 +177,12 @@ export const KeyboardChallengeForm: React.FC<KeyboardChallengeFormProps> = ({
         className="form-input"
         placeholder="Enter your full name"
       />
+      {errors.name && (
+        <div id="name-error" className="form-error-text" role="alert" aria-live="polite">
+          {errors.name}
+        </div>
+      )}
+
       <label htmlFor="email">Email:</label>
       <input
         id="email"
@@ -180,13 +196,19 @@ export const KeyboardChallengeForm: React.FC<KeyboardChallengeFormProps> = ({
         className="form-input"
         placeholder="you@example.com"
       />
+      {errors.email && (
+        <div id="email-error" className="form-error-text" role="alert" aria-live="polite">
+          {errors.email}
+        </div>
+      )}
+
       <label htmlFor="age">Age:</label>
       <input
         id="age"
         name="age"
         type="number"
-        min={18}
-        max={99}
+        min={AGE_MIN}
+        max={AGE_MAX}
         value={state.age}
         onChange={e => handleChange('age', e.target.value)}
         aria-invalid={!!errors.age}
@@ -195,6 +217,12 @@ export const KeyboardChallengeForm: React.FC<KeyboardChallengeFormProps> = ({
         className="form-input"
         placeholder="18-99"
       />
+      {errors.age && (
+        <div id="age-error" className="form-error-text" role="alert" aria-live="polite">
+          {errors.age}
+        </div>
+      )}
+
       <label htmlFor="country-select">Country:</label>
       <select
         id="country-select"
@@ -202,6 +230,7 @@ export const KeyboardChallengeForm: React.FC<KeyboardChallengeFormProps> = ({
         value={state.country}
         onChange={e => handleChange('country', e.target.value)}
         aria-invalid={!!errors.country}
+        aria-describedby={errors.country ? 'country-error' : undefined}
         className="form-select"
       >
         <option value="">Select country</option>
@@ -209,6 +238,12 @@ export const KeyboardChallengeForm: React.FC<KeyboardChallengeFormProps> = ({
           <option key={c} value={c}>{c}</option>
         ))}
       </select>
+      {errors.country && (
+        <div id="country-error" className="form-error-text" role="alert" aria-live="polite">
+          {errors.country}
+        </div>
+      )}
+
       <label htmlFor="state-select">State/Province:</label>
       <select
         id="state-select"
@@ -216,6 +251,7 @@ export const KeyboardChallengeForm: React.FC<KeyboardChallengeFormProps> = ({
         value={state.state}
         onChange={e => handleChange('state', e.target.value)}
         aria-invalid={!!errors.state}
+        aria-describedby={errors.state ? 'state-error' : undefined}
         disabled={!state.country}
         className="form-select"
       >
@@ -224,6 +260,12 @@ export const KeyboardChallengeForm: React.FC<KeyboardChallengeFormProps> = ({
           <option key={s} value={s}>{s}</option>
         ))}
       </select>
+      {errors.state && (
+        <div id="state-error" className="form-error-text" role="alert" aria-live="polite">
+          {errors.state}
+        </div>
+      )}
+
       <label htmlFor="city-select">City:</label>
       <select
         id="city-select"
@@ -231,6 +273,7 @@ export const KeyboardChallengeForm: React.FC<KeyboardChallengeFormProps> = ({
         value={state.city}
         onChange={e => handleChange('city', e.target.value)}
         aria-invalid={!!errors.city}
+        aria-describedby={errors.city ? 'city-error' : undefined}
         disabled={!state.state}
         className="form-select"
       >
@@ -239,6 +282,12 @@ export const KeyboardChallengeForm: React.FC<KeyboardChallengeFormProps> = ({
           <option key={ct} value={ct}>{ct}</option>
         ))}
       </select>
+      {errors.city && (
+        <div id="city-error" className="form-error-text" role="alert" aria-live="polite">
+          {errors.city}
+        </div>
+      )}
+
       <label id="slider-label" htmlFor="slider-widget">Satisfaction (1-100):</label>
       <div className="slider-row">
         <input
@@ -256,87 +305,100 @@ export const KeyboardChallengeForm: React.FC<KeyboardChallengeFormProps> = ({
         />
         <span className="slider-value">{state.slider}</span>
       </div>
+
       <fieldset className="form-fieldset">
         <legend className="form-legend">Preferred contact method<span aria-hidden="true" className="required-asterisk">*</span>:</legend>
         <div role="radiogroup" aria-labelledby="contact-method-group-label" className="option-row">
           <label id="contact-method-group-label" className="sr-only">Preferred contact method</label>
           <label className="option-label">
             <input
+              id="contactMethod-Email"
               type="radio"
               name="contactMethod"
               value="Email"
               checked={state.contactMethod === 'Email'}
               onChange={() => handleChange('contactMethod', 'Email')}
               aria-invalid={!!errors.contactMethod}
+              aria-describedby={errors.contactMethod ? 'contactMethod-error' : undefined}
               className="form-radio"
             />
             Email
           </label>
           <label className="option-label">
             <input
+              id="contactMethod-Phone"
               type="radio"
               name="contactMethod"
               value="Phone"
               checked={state.contactMethod === 'Phone'}
               onChange={() => handleChange('contactMethod', 'Phone')}
               aria-invalid={!!errors.contactMethod}
+              aria-describedby={errors.contactMethod ? 'contactMethod-error' : undefined}
               className="form-radio"
             />
             Phone
           </label>
         </div>
         {errors.contactMethod && (
-          <div id="contactMethod-error" className="form-error-text">
+          <div id="contactMethod-error" className="form-error-text" role="alert" aria-live="polite">
             {errors.contactMethod}
           </div>
         )}
       </fieldset>
+
       <fieldset className="form-fieldset">
         <legend className="form-legend">Interests<span aria-hidden="true" className="required-asterisk">*</span>:</legend>
         <div className="option-row">
           <label className="option-label">
             <input
+              id="interests-Tech"
               type="checkbox"
               name="interests"
               value="Tech"
               checked={state.interests.includes('Tech')}
               onChange={() => handleCheckboxGroupChange('Tech')}
               aria-invalid={!!errors.interests}
+              aria-describedby={errors.interests ? 'interests-error' : undefined}
               className="form-checkbox"
             />
             Tech
           </label>
           <label className="option-label">
             <input
+              id="interests-Art"
               type="checkbox"
               name="interests"
               value="Art"
               checked={state.interests.includes('Art')}
               onChange={() => handleCheckboxGroupChange('Art')}
               aria-invalid={!!errors.interests}
+              aria-describedby={errors.interests ? 'interests-error' : undefined}
               className="form-checkbox"
             />
             Art
           </label>
           <label className="option-label">
             <input
+              id="interests-Sports"
               type="checkbox"
               name="interests"
               value="Sports"
               checked={state.interests.includes('Sports')}
               onChange={() => handleCheckboxGroupChange('Sports')}
               aria-invalid={!!errors.interests}
+              aria-describedby={errors.interests ? 'interests-error' : undefined}
               className="form-checkbox"
             />
             Sports
           </label>
         </div>
         {errors.interests && (
-          <div id="interests-error" className="form-error-text">
+          <div id="interests-error" className="form-error-text" role="alert" aria-live="polite">
             {errors.interests}
           </div>
         )}
       </fieldset>
+
       <div className="agree-row">
         <label htmlFor="agree" className="option-label agree-label">
           <input
@@ -346,12 +408,13 @@ export const KeyboardChallengeForm: React.FC<KeyboardChallengeFormProps> = ({
             checked={state.agree}
             onChange={e => handleChange('agree', e.target.checked)}
             aria-invalid={!!errors.agree}
+            aria-describedby={errors.agree ? 'agree-error' : undefined}
             className="form-checkbox"
           />
           I agree to the terms and conditions<span aria-hidden="true" className="required-asterisk">*</span>
         </label>
         {errors.agree && (
-          <div id="agree-error" className="form-error-text">
+          <div id="agree-error" className="form-error-text" role="alert" aria-live="polite">
             {errors.agree}
           </div>
         )}
